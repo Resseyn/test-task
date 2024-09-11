@@ -1,9 +1,8 @@
-
-import { auth } from "@/auth";
+"use client";
 import { useSession } from "next-auth/react";
 
-export default async function Home() {
-  const session = await auth()
+export default function Home() {
+  const session = useSession();
 
   return <div>{JSON.stringify(session)}</div>;
 }

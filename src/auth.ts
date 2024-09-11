@@ -30,7 +30,7 @@ async function getUser(username: string, password: string) {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -40,7 +40,6 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { username, password } = parsedCredentials.data;
           const user = await getUser(username, password);
-          console.log(user)
           if (!user) return null;
           return user;
         }
