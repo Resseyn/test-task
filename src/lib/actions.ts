@@ -12,9 +12,9 @@ export async function authenticate(formData: FormData) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return "Invalid credentials.";
+          return "Неправильные данные";
         default:
-          return "Something went wrong.";
+          return "Что-то пошло не так";
       }
     }
     throw error;

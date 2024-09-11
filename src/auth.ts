@@ -1,10 +1,33 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
 import { signInSchema } from "./lib/zod";
+import { HOST } from "./lib/consts";
 
-async function getUser(email: string, password: string) {
-  return { email: "mas" };
+async function getUser(username: string, password: string) {
+  try {
+    const response = await fetch(`${HOST}/ru/data/v3/testmethods/docs/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const token = (await response.json()).data.token;
+    // Необходимый костыль из условий таска
+    return { email: token, name: username } as User;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return null;
+  }
 }
 
 export const { auth, signIn, signOut } = NextAuth({
@@ -15,12 +38,12 @@ export const { auth, signIn, signOut } = NextAuth({
         const parsedCredentials = signInSchema.safeParse(credentials);
 
         if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data;
-          const user = await getUser(email, password);
+          const { username, password } = parsedCredentials.data;
+          const user = await getUser(username, password);
+          console.log(user)
           if (!user) return null;
           return user;
         }
-
         return null;
       },
     }),

@@ -18,6 +18,17 @@ export const authConfig = {
       }
       return true;
     },
+    async jwt({ token, user }) {
+      if (user) {
+        // Необходимый костыль из условий таска
+        token.accessToken = user.email
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.accessToken = token.accessToken;
+      return session;
+    },
   },
-  providers: [], // Add providers with an empty array for now
+  providers: [],
 } satisfies NextAuthConfig;
