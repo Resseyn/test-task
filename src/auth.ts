@@ -1,26 +1,27 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { saltAndHashPassword } from "@/utils/password";
+import { authConfig } from "./auth.config";
+import { signInSchema } from "./lib/zod";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+async function getUser(email: string, password: string) {
+  return { email: "mas" };
+}
+
+export const { auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
-      authorize: async (credentials) => {
-        const user = null;
+      async authorize(credentials) {
+        const parsedCredentials = signInSchema.safeParse(credentials);
 
-        const pwHash = saltAndHashPassword(credentials.password);
-
-        // TODO: user = await getUserFromDb(credentials.email, pwHash);
-
-        if (!user) {
-          throw new Error("User not found.");
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data;
+          const user = await getUser(email, password);
+          if (!user) return null;
+          return user;
         }
 
-        return user;
+        return null;
       },
     }),
   ],
