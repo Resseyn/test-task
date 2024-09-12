@@ -76,32 +76,38 @@ export default function Home() {
     if (data.companySigDate) data.companySigDate = new Date(data.companySigDate).toISOString() + "\t";
     
     const { id, ...tableDataWithoutId } = data;
-
+    setIsLoading(true);
     axiosClient
         .post("/ru/data/v3/testmethods/docs/userdocs/create",
           tableDataWithoutId)
         .then((response) => {
           toast("Успешно добавлено!")
           setData((data) => [...data, response.data.data]);
+          setIsLoading(false);
         })
         .catch(() => {
           toast.error("Не получилось обновить данные!");
+          setIsLoading(false);
         });
   };
 
   const handleDeleteEntry = (id: string) => {
+    setIsLoading(true);
     axiosClient
         .post(`/ru/data/v3/testmethods/docs/userdocs/delete/${id}`)
         .then((response) => {
           if (response.data.error_code == 0) {
             toast("Успешно удалено!")
             setData((prevData) => prevData.filter((entry) => entry.id !== id));
+            setIsLoading(false);
           } else {
             toast.error("Не получилось удалить документ!");
+            setIsLoading(false);
           }
         })
         .catch(() => {
           toast.error("Не получилось удалить документ!");
+          setIsLoading(false);
         });
   };
 
@@ -111,7 +117,7 @@ export default function Home() {
 
     if (data.employeeSigDate) data.employeeSigDate = new Date(data.employeeSigDate).toISOString() + "\t";
     if (data.companySigDate) data.companySigDate = new Date(data.companySigDate).toISOString() + "\t";
-
+    setIsLoading(true);
     axiosClient
         .post(`/ru/data/v3/testmethods/docs/userdocs/set/${data.id}`,
           data)
@@ -132,12 +138,15 @@ export default function Home() {
               
               return prevData;
             });
+            setIsLoading(false);
             setEditEntryId(null)
           } else {
             toast.error("Не получилось удалить документ!");
+            setIsLoading(false);
           }
         })
         .catch(() => {
+          setIsLoading(false);
           toast.error("Не получилось обновить данные!");
         });
   };
