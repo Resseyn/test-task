@@ -159,7 +159,7 @@ export default function Home() {
   };
 
   return (
-    <Container maxWidth="lg" className="mt-10">
+    <Container maxWidth="lg" className="mt-10 overflow-scroll">
       <Typography variant="h3" component="h1" align="center" gutterBottom>
         Документы
       </Typography>
