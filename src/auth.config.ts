@@ -20,12 +20,12 @@ export const authConfig = {
     },
     async jwt({ token, user }) {
       if (user) {
-        // Необходимый костыль из условий таска
-        token.accessToken = user.email
+        token.accessToken = user.email;
       }
       return token;
     },
     async session({ session, token }) {
+      // @ts-expect-error: Необходимость из-за API
       session.user.accessToken = token.accessToken;
       return session;
     },

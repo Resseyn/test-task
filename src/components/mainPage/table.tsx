@@ -4,19 +4,25 @@ import { useState } from "react";
 
 type AnchorPosition = { top: number; left: number } | null;
 
-export default function DocumentTable({ data, onDelete, onEdit }: 
-  { data: TableData[], onDelete: (id: string) => void, onEdit: (id: string) => void }) {
+export default function DocumentTable({
+  data,
+  onDelete,
+  onEdit,
+}: {
+  data: TableData[];
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+}) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuAnchorPosition, setMenuAnchorPosition] = useState<AnchorPosition | null>(null);
   const [selectedId, setSelectedId] = useState<string>("");
-  
-  const open = Boolean(anchorEl);
 
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleContextMenu = (event: React.MouseEvent, id: string) => {
     setMenuAnchorPosition({ top: event.clientY, left: event.clientX });
+    // @ts-expect-error: это работает
     setAnchorEl(event.currentTarget);
     setSelectedId(id);
   };
@@ -39,8 +45,7 @@ export default function DocumentTable({ data, onDelete, onEdit }:
           </TableHead>
           <TableBody>
             {data.map((doc: TableData) => (
-              <TableRow key={doc.id} 
-              onClick={(event) => handleContextMenu(event, doc.id)}>
+              <TableRow key={doc.id} onClick={(event) => handleContextMenu(event, doc.id)}>
                 <TableCell>{doc.documentName}</TableCell>
                 <TableCell>{doc.documentType}</TableCell>
                 <TableCell className={`${doc.documentStatus === "Подписан" ? "text-green-500" : "text-red-500"}`}>
@@ -63,18 +68,24 @@ export default function DocumentTable({ data, onDelete, onEdit }:
         anchorReference="anchorPosition"
         anchorPosition={menuAnchorPosition}
       >
-      <MenuItem onClick={() => {
-        onEdit(selectedId)
-        setAnchorEl(null)
-        }}>Изменить</MenuItem>
-      <MenuItem className="transition bg-red-300/35 hover:bg-red-300" 
-        onClick={() => {
-          onDelete(selectedId)
-          setAnchorEl(null)
-        }}>
+        <MenuItem
+          onClick={() => {
+            onEdit(selectedId);
+            setAnchorEl(null);
+          }}
+        >
+          Изменить
+        </MenuItem>
+        <MenuItem
+          className="transition bg-red-300/35 hover:bg-red-300"
+          onClick={() => {
+            onDelete(selectedId);
+            setAnchorEl(null);
+          }}
+        >
           Удалить
-      </MenuItem>
-    </Menu>
+        </MenuItem>
+      </Menu>
     </>
   );
 }

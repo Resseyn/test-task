@@ -1,4 +1,4 @@
-import { Modal, Box, Typography, Button, TextField, IconButton, Input } from "@mui/material";
+import { Modal, Button, Input } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { TableData } from "@/types/types";
@@ -9,7 +9,7 @@ uuidv4();
 
 interface NewDocumentModalProps {
   open: boolean;
-  defaultValue: TableData,
+  defaultValue: TableData;
   handleClose: () => void;
   handleSave: (data: TableData) => void;
 }
@@ -28,7 +28,7 @@ export default function EditDocumentModal({ open, defaultValue, handleClose, han
   if (defaultValue.companySigDate) defaultValue.companySigDate = formatDateTimeForInput(defaultValue.companySigDate);
 
   const [documentData, setDocumentData] = useState<TableData>(defaultValue);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDocumentData((prevData) => ({ ...prevData, [name]: value }));
