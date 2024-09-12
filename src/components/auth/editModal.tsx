@@ -53,7 +53,10 @@ export default function EditDocumentModal({ open, defaultValue, handleClose, han
   return (
     <>
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
-        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white shadow-xl p-6 rounded-lg">
+        <div
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 
+        bg-white shadow-xl p-6 rounded-lg max-h-lvh overflow-scroll"
+        >
           <div className="flex justify-between items-center mb-4">
             <h2 id="modal-title" className="text-xl font-semibold">
               Изменить документ

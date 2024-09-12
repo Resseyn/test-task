@@ -10,17 +10,13 @@ npm install
 ```bash
 npx auth secret
 ```
+В новом файле .env.local добавьте строчку AUTH_TRUST_HOST=true
 
-Далее запустите сервер:
+Далее:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm start
 ```
 
 Откройте [http://localhost:3000](http://localhost:3000) и оцените результат.
