@@ -3,11 +3,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { TableData } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
+import { formatDateTimeForInput } from "@/utils/helpers";
 
 uuidv4();
 
 interface NewDocumentModalProps {
   open: boolean;
+  defaultValue: TableData,
   handleClose: () => void;
   handleSave: (data: TableData) => void;
 }
@@ -21,18 +23,11 @@ const labels = {
   companySignatureName: "Подпись компании",
 };
 
-export default function NewDocumentModal({ open, handleClose, handleSave }: NewDocumentModalProps) {
-  const [documentData, setDocumentData] = useState<TableData>({
-    id: uuidv4(),
-    documentName: "",
-    documentType: "",
-    documentStatus: "",
-    employeeNumber: "",
-    employeeSignatureName: "",
-    companySignatureName: "",
-    employeeSigDate: "",
-    companySigDate: "",
-  });
+export default function EditDocumentModal({ open, defaultValue, handleClose, handleSave }: NewDocumentModalProps) {
+  if (defaultValue.employeeSigDate) defaultValue.employeeSigDate = formatDateTimeForInput(defaultValue.employeeSigDate);
+  if (defaultValue.companySigDate) defaultValue.companySigDate = formatDateTimeForInput(defaultValue.companySigDate);
+
+  const [documentData, setDocumentData] = useState<TableData>(defaultValue);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,14 +56,14 @@ export default function NewDocumentModal({ open, handleClose, handleSave }: NewD
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white shadow-xl p-6 rounded-lg">
           <div className="flex justify-between items-center mb-4">
             <h2 id="modal-title" className="text-xl font-semibold">
-              Add New Document
+              Изменить документ
             </h2>
             <Button onClick={handleClose} className="text-gray-500 hover:text-gray-700">
               <CloseIcon />
             </Button>
           </div>
           <p id="modal-description" className="mb-4 text-gray-600">
-            Fill out the form below to add a new document.
+            Заполните поля для изменения
           </p>
 
           {Object.keys(documentData)
@@ -88,9 +83,9 @@ export default function NewDocumentModal({ open, handleClose, handleSave }: NewD
 
           <div className="flex justify-between mt-4">
             <Button onClick={handleClose} className="px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">
-              Cancel
+              Отмена
             </Button>
-            <Button onClick={handleSubmit}>Save</Button>
+            <Button onClick={handleSubmit}>Сохранить</Button>
           </div>
         </div>
       </Modal>

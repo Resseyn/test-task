@@ -63,9 +63,15 @@ export default function DocumentTable({ data, onDelete, onEdit }:
         anchorReference="anchorPosition"
         anchorPosition={menuAnchorPosition}
       >
-      <MenuItem onClick={() => onEdit(selectedId)}>Изменить</MenuItem>
+      <MenuItem onClick={() => {
+        onEdit(selectedId)
+        setAnchorEl(null)
+        }}>Изменить</MenuItem>
       <MenuItem className="transition bg-red-300/35 hover:bg-red-300" 
-        onClick={() => onDelete(selectedId)}>
+        onClick={() => {
+          onDelete(selectedId)
+          setAnchorEl(null)
+        }}>
           Удалить
       </MenuItem>
     </Menu>
