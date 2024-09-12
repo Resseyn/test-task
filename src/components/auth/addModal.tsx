@@ -61,20 +61,21 @@ export default function NewDocumentModal({ open, handleClose, handleSave }: NewD
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white shadow-xl p-6 rounded-lg">
           <div className="flex justify-between items-center mb-4">
             <h2 id="modal-title" className="text-xl font-semibold">
-              Add New Document
+              Добавить новый документ
             </h2>
             <Button onClick={handleClose} className="text-gray-500 hover:text-gray-700">
               <CloseIcon />
             </Button>
           </div>
           <p id="modal-description" className="mb-4 text-gray-600">
-            Fill out the form below to add a new document.
+            Заполните поля для добавления
           </p>
 
           {Object.keys(documentData)
             .filter((key) => key !== "id")
             .map((key) => (
               <div key={key} className="mb-4">
+                <label>{labels[key]}</label>
                 <Input
                   type={key.includes("Date") ? "datetime-local" : "text"}
                   name={key}
@@ -88,9 +89,9 @@ export default function NewDocumentModal({ open, handleClose, handleSave }: NewD
 
           <div className="flex justify-between mt-4">
             <Button onClick={handleClose} className="px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">
-              Cancel
+              Отмена
             </Button>
-            <Button onClick={handleSubmit}>Save</Button>
+            <Button onClick={handleSubmit}>Сохранить</Button>
           </div>
         </div>
       </Modal>

@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 export default function Home() {
   const { data: session, status } = useSession();
-  const [data, setData] = useState<TableData[] | null>(null);
+  const [data, setData] = useState<TableData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
@@ -68,6 +68,7 @@ export default function Home() {
   const handleCloseModal = () => {
     setIsAddModalOpen(false)
     setIsEditModalOpen(false);
+    setEditEntryId(null);
   };
 
   const handleSaveEntry = (data: TableData) => {
@@ -159,9 +160,9 @@ export default function Home() {
         Документы
       </Typography>
       {isLoading ? <SkeletonTable /> : <DocumentTable 
-      data={data} 
-      onEdit={onEdit}
-      onDelete={handleDeleteEntry}/>}
+        data={data} 
+        onEdit={onEdit}
+        onDelete={handleDeleteEntry}/>}
       <Button className="mt-4 mx-2" onClick={() => {handleOpenModal("add")}}>
         Добавить
       </Button>

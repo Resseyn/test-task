@@ -28,7 +28,7 @@ export default function EditDocumentModal({ open, defaultValue, handleClose, han
   if (defaultValue.companySigDate) defaultValue.companySigDate = formatDateTimeForInput(defaultValue.companySigDate);
 
   const [documentData, setDocumentData] = useState<TableData>(defaultValue);
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setDocumentData((prevData) => ({ ...prevData, [name]: value }));
@@ -70,6 +70,7 @@ export default function EditDocumentModal({ open, defaultValue, handleClose, han
             .filter((key) => key !== "id")
             .map((key) => (
               <div key={key} className="mb-4">
+                <label>{labels[key]}</label>
                 <Input
                   type={key.includes("Date") ? "datetime-local" : "text"}
                   name={key}

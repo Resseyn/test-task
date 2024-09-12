@@ -1,9 +1,9 @@
 export interface TableData {
   id: string;
+  documentName: string;
+  documentType: string;
   documentStatus: string;
   employeeNumber: string;
-  documentType: string;
-  documentName: string;
   companySignatureName: string;
   employeeSignatureName: string;
   employeeSigDate: string;
